@@ -1,0 +1,97 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+    {% if category %}
+        {{ category.name }}
+    {% else %}
+        Products
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+        <div class="container"><div class="hero-wrap hero-bread">
+            <div class="container">
+                <div class="row no-gutters slider-text align-items-center justify-content-center">
+                    <div class="col-md-9 ftco-animate text-center">
+                    <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Products</span></p>
+                      <h1 class="mb-0 bread">{% if category %}{{ category.name}}{% else %} Products {% endif %}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="ftco-section bg-light">
+        	<div class="container">
+    	    	<div class="row">
+    		    	<div class="col-md-8 col-lg-10 order-md-last">
+                        <div class="row">
+                            {% for item in product %}
+                            <div class="col-sm col-md-6 col-lg ftco-animate">
+
+                                <div class="product">
+                                    <a href="{{ item.get_absolute_url }}" class="img-prod"><img class="img-fluid" src="
+                                        {% if item.image %}
+                                            {{ item.image.url }}
+                                        {% else %}
+                                            {% static 'image/no_image.png' %}
+                                        {% endif %}
+                                        "alt="Kokki Template">
+<!--                                        <span class="status">30%</span>-->
+                                        <div class="overlay"></div>
+                                    </a>
+                                    <div class="text py-3 px-3">
+                                        <h3><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></h3>
+                                        <div class="d-flex">
+                                            <div class="pricing">
+                                                <p class="price"><span class="price-sale">{{ item.price }}</span></p>
+                                            </div>
+                                            <div class="rating">
+                                                <p class="text-right">
+                                                    <a href="#"><span class="ion-ios-star-outline"></span></a>
+                                                    <a href="#"><span class="ion-ios-star-outline"></span></a>
+                                                    <a href="#"><span class="ion-ios-star-outline"></span></a>
+                                                    <a href="#"><span class="ion-ios-star-outline"></span></a>
+                                                    <a href="#"><span class="ion-ios-star-outline"></span></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p class="bottom-area d-flex px-3">
+                                            <a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i
+                                                    class="ion-ios-add ml-1"></i></span></a>
+                                            <a href="#" class="buy-now text-center py-2">Buy now<span><i
+                                                    class="ion-ios-cart ml-1"></i></span></a>
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-lg-2 sidebar">
+                        <div class="sidebar-box-2">
+                            <ul>
+                                <li {% if not category %}
+                                        class="selected"
+                                    {% endif %}>
+                                    <a href="{% url 'shop:product_list' %}">All</a></li>
+
+                                {% for c in categories %}
+                                <li {% if category.slug == c.slug %}
+                                        class="selected"
+                                    {% endif %}>
+                                    <a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+{% endblock %}
